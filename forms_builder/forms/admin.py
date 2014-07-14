@@ -16,6 +16,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.utils.translation import ungettext, ugettext_lazy as _
+from django import forms
 
 from forms_builder.forms.forms import EntriesForm
 from forms_builder.forms.models import Form, Field, FormEntry, FieldEntry
@@ -54,6 +55,17 @@ class FieldAdmin(admin.TabularInline):
     model = Field
     exclude = ('slug', )
 
+from pagedown.widgets import AdminPagedownWidget
+
+class FormAdminForm(forms.ModelForm):
+    class Meta:
+        model = Form
+        fieldsets = form_admin_fieldsets
+        widgets = {
+            'intro': AdminPagedownWidget,
+            'response': AdminPagedownWidget,
+            }
+
 
 class FormAdmin(admin.ModelAdmin):
     formentry_model = FormEntry
@@ -69,7 +81,7 @@ class FormAdmin(admin.ModelAdmin):
     search_fields = ("title", "intro", "response", "email_from",
                      "email_copies")
     radio_fields = {"status": admin.HORIZONTAL}
-    fieldsets = form_admin_fieldsets
+    form = FormAdminForm
 
     def queryset(self, request):
         """

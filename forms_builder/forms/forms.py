@@ -441,3 +441,4 @@ class EntriesForm(forms.Form):
             if not csv:
                 current_row.insert(0, current_entry)
             yield current_row
+

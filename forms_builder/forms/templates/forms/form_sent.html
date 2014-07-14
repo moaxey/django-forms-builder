@@ -1,3 +1,4 @@
+{% load markdown_deux_tags %}
 <!doctype html>
 <head>
     <meta charset="utf-8">
@@ -12,6 +13,6 @@
 <body>
     <h1>{{ form.title }}</h1>
     {% if form.response %}
-    <p>{{ form.response }}</p>
+    <p>{{ form.response|markdown }}</p>
     {% endif %}
 </body>
